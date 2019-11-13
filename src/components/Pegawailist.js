@@ -1,5 +1,7 @@
 import React from "react";
 import { SERVER_URL } from "../constants";
+import ReactTable from "react-table";
+import 'react-table/react-table.css';
 
 class Pegawailist extends React.Component {
   constructor() {
@@ -23,20 +25,20 @@ class Pegawailist extends React.Component {
     this.fetchData();
   };
 
+  hapus = (link) => {
+    fetch(link,{method : "DELETE"})
+    .then(response => this.fetchData());
+  }
+
   render() {
-    const tableRows = this.state.pegawais.map((pegawai, index) => (
-      <tr key={pegawai.id}>
-        <td>{pegawai.nama}</td>
-        <td>{pegawai.alamat}</td>
-      </tr>
-    ));
+    const columns = [{Header:"Nama",accessor: "nama"},
+    {Header:"Alamat",accessor: "alamat"},
+  {id:"delButton",accessor : "_links.self.href",Cell: ({value})=><button onClick={()=>this.hapus(value)}>Hapus</button> }]
     return (
-      <div className="App">
-        <table>
-          <tbody>{tableRows}</tbody>
-        </table>
+      <div>
+        <ReactTable data={this.state.pegawais} columns={columns} filterable={true}></ReactTable>
       </div>
-    );
+    )
   }
 }
 

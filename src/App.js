@@ -1,6 +1,6 @@
 import React from "react";
 import Pegawailist from "./components/Pegawailist";
-import "./App.css";
+//import "./App.css";
 
 class App extends React.Component {
   render() {
